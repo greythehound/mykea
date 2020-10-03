@@ -15,10 +15,10 @@ const generateHeader = () => {
                 </a>
                 <form class="search" method="get" action="goods.html">
                     <input type="search" name="s" maxlength="150" class="search-input" spellcheck="false"
-                        aria-label="Искать товары, новинки и вдохновение"
-                        aria-placeholder="Искать товары, новинки и вдохновение" placeholder="Что вы ищете?"
+                        aria-label="Search for products, inspiration or new arrivals"
+                        aria-placeholder="Search for products, inspiration or new arrivals" placeholder="What are you looking for?"
                         autocapitalize="off" autocomplete="off" autocorrect="off">
-                    <button type="submit" class="btn search-btn" aria-label="найти"></button>
+                    <button type="submit" class="btn search-btn" aria-label="search"></button>
                 </form>
                 <a href="goods.html?wishlist" class="btn btn-wishlist">
                     <svg focusable="false" class="svg-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
