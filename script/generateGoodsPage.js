@@ -1,25 +1,24 @@
 import generateSubCatalog from './generateSubCatalog.js';
 import {getData} from './getData.js';
+import userData from './userData.js';
 
 const COUNTER = 6;
 
-const wishList = ['idd001', 'idd003', 'idd005', 'idd006', 'idd008'];
-
 const generateGoodsPage = () => {
     const mainHeader = document.querySelector('.main-header');
-    const goodsList = document.querySelector('.goods-list');
-
+    
     const generateCards = (data) => {
+        
+        const goodsList = document.querySelector('.goods-list');
+
         goodsList.textContent = '';
         if (!data.length) {
             const goods = document.querySelector('.goods');
             goods.textContent = location.search === '?wishlist' ? 'Your wishlist is empty :(' : 'Unfortunately, nothing was found :(';
         }
 
-
         data.forEach(item => {
-            console.log('item: ', item);
-                const { count, name: itemName, id, description, price, img: image} = item;
+            const { count, name: itemName, id, description, price, img: image} = item;
 
             goodsList.insertAdjacentHTML('afterbegin', `
             <li class="goods-list__item">
@@ -29,7 +28,7 @@ const generateGoodsPage = () => {
                             <img src="${image[0]}"
                                 ${image[1] ? `data-second-image="${image[1]}"` : ''}
                         </div>
-                        ${count > COUNTER ? `<p class="goods-item__new">New!</p>` : ''}
+                        ${count >= COUNTER ? `<p class="goods-item__new">New!</p>` : ''}
                         ${!count ? `<p class="goods-item__new">OUT OF STOCK!</p>` : ''}
                         <h3 class="goods-item__header">${itemName}</h3>
                         <p class="goods-item__description">${description}</p>
@@ -44,6 +43,14 @@ const generateGoodsPage = () => {
             </li>
             `)
         })
+
+        goodsList.addEventListener('click', (event) => {
+            const btnAddCard = event.target.closest('.btn-add-card');
+            if (btnAddCard) {
+                event.preventDefault();
+                userData.cartList = btnAddCard.dataset.idd;
+            }
+        });
     };
 
     if (location.pathname.includes('goods') && location.search) {
@@ -55,13 +62,14 @@ const generateGoodsPage = () => {
             getData.search(value, generateCards);
             mainHeader.textContent = `Search: ${value}`;
         } else if (prop === 'wishlist') {
-            getData.wishList(wishList, generateCards);
+            getData.wishList(userData.wishList, generateCards);
             mainHeader.textContent = `Your wishlist`;
         } else if (prop === 'cat' || prop === 'subcat'){
             getData.category(prop, value, generateCards);
             mainHeader.textContent = `${value}`;
         }
     }
+
 };
 
 export default generateGoodsPage;
